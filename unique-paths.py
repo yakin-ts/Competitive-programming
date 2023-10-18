@@ -1,12 +1,18 @@
 class Solution:
-    def uniquePaths(self, m: int, n: int) -> int:
-        grid = [ [0]*n for _ in range(m)]
-        print(grid)
-        for r in range(m):
-            for c in range(n):
-                if r==0 or c==0:
-                    grid[r][c]=1
-                else:
-                    grid[r][c] = grid[r-1][c] + grid[r][c-1]
-        return grid[m-1][n-1]
-        # return 1
+    def uniquePaths(self, m: int, n: int, mem={}) -> int:
+        # if (m,n) in mem:
+        #     return mem[(m,n)]
+        # if m==1 and n==1:
+        #     return 1
+        # if m==0 or n==0:
+        #     return 0
+        
+        # mem[(m,n)] = self.uniquePaths(m-1,n,mem) + self.uniquePaths(m,n-1,mem)
+
+        # return mem[(m,n)]
+
+        row_fact = factorial(m-1)
+        col_fact = factorial(n-1)
+        paths = factorial(n+m-2)//(row_fact*col_fact)
+
+        return paths
