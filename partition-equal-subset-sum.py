@@ -1,14 +1,20 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        N = len(nums)
-        mem = defaultdict(int)
+        n = len(nums)
+        total = sum(nums)
+        if total%2!=0:
+            return False
+        answer = total//2
+        mem = {}
+        def solve(idx,target):
+            if idx >=n:
+                return False
+            if target==answer:
+                return True
+            if (idx,target) in mem:
+                return mem[(idx,target)]
+            mem[(idx,target)] = solve(idx+1,target + nums[idx]) or solve(idx+1,target)
 
-        def dp(i,target):
-            if i >= N or target <=0:
-                return target==0
-            state = (i,target)
-            if state not in mem:
-                mem[state] = dp(i+1,target-nums[i]) or dp(i+1,target)
-            return mem[state]
+            return mem[(idx,target)]
         
-        return sum(nums)%2==0 and dp(0,sum(nums)//2)
+        return solve(0,0)
